@@ -1,33 +1,49 @@
-import { Ionicons } from '@expo/vector-icons'
-import { Tabs } from 'expo-router'
-import { StyleSheet } from 'react-native'
+import { Ionicons } from '@expo/vector-icons';
+import { Tabs, useTheme } from 'expo-router';
 
 const TabLayout = () => {
-    return (
-            <Tabs screenOptions={{
-                tabBarActiveTintColor: 'tomato',
-                tabBarInactiveTintColor: 'gray',
-                headerShown: false,
-            }}>
-                
-                    <Tabs.Screen name="index"
-                        options={{
-                            title: 'Home',
-                            headerShown: false,
-                            tabBarIcon: ({ color, focused, size }) => <Ionicons name={focused ? 'home-sharp' : 'home-outline'} size={size} color={color} />
-                        }}
-                    />
-                    <Tabs.Screen
-                        name="transitions"
-                        options={{
-                            title: 'Transitions',
-                            headerShown: false,
-                                tabBarIcon: ({ color, focused, size }) => <Ionicons name={focused ? 'swap-horizontal-sharp' : 'swap-horizontal-outline'} size={size} color={color} />
-                        }} />
-            </Tabs>
-  )
-}
+  const { colors } = useTheme();
 
-export default TabLayout
+  return (
+    <Tabs
+      screenOptions={{
+        headerShown: false,
+        tabBarActiveTintColor: 'tomato',
+        tabBarInactiveTintColor: 'gray',
+        tabBarStyle: {
+          backgroundColor: colors.card,
+          borderTopColor: colors.border,
+        },
+      }}
+    >
+      <Tabs.Screen
+        name='index'
+        options={{
+          title: 'Home',
+          tabBarIcon: ({ color, focused, size }) => (
+            <Ionicons
+              name={focused ? 'home-sharp' : 'home-outline'}
+              size={size}
+              color={color}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name='transitions'
+        options={{
+          title: 'Transitions',
+          tabBarIcon: ({ color, focused, size }) => (
+            <Ionicons
+              name={focused ? 'swap-horizontal-sharp' : 'swap-horizontal-outline'}
+              size={size}
+              color={color}
+            />
+          ),
+        }}
+      />
+    </Tabs>
+  );
+};
 
-const styles = StyleSheet.create({})
+export default TabLayout;

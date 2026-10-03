@@ -1,28 +1,45 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
-import Animated, { useSharedValue, withSpring } from "react-native-reanimated";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { useTheme } from 'expo-router';
+import { Pressable, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
+import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
+import { SafeAreaView } from 'react-native-safe-area-context';
+
+const MIN_WIDTH = 100;
+const SCREEN_PADDING = 20;
 
 export default function Index() {
-  const width = useSharedValue( 100 );
-  
-  const handlePress = () => { 
-    width.value = withSpring(Math.random() * 200 + 100);
-  }
+  const { colors } = useTheme();
+  const { width: screenWidth } = useWindowDimensions();
+  const width = useSharedValue( MIN_WIDTH );
+
+  // Never wider than the space the screen padding leaves
+  const maxWidth = screenWidth - SCREEN_PADDING * 2;
+
+  const boxStyle = useAnimatedStyle( () => ( {
+    width: width.get(),
+  } ) );
+
+  const handlePress = () => {
+    width.set( withSpring( MIN_WIDTH + Math.random() * ( maxWidth - MIN_WIDTH ) ) );
+  };
 
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <View style={styles.container}>
-        <Animated.View
-          style={[{width}, styles.animationContainer]}
-        />
-        <Pressable onPress={handlePress}
-          style={styles.customButton}
-          >
+    <SafeAreaView
+      style={[ styles.safeArea, { backgroundColor: colors.background } ]}
+      edges={[ 'top', 'left', 'right' ]}
+    >
+      <View style={styles.content}>
+        <Text style={[ styles.header, { color: colors.text } ]}>
+          Animating styles and props
+        </Text>
+
+        <Animated.View style={[ styles.box, boxStyle ]} />
+
+        <Pressable
+          onPress={handlePress}
+          style={[ styles.button, { backgroundColor: colors.primary } ]}
+        >
           <Text style={styles.buttonText}>Change Width</Text>
         </Pressable>
-        <Animated.View>
-          <Text style={styles.header}> Animating styles and props </Text>
-        </Animated.View>
       </View>
     </SafeAreaView>
   );
@@ -31,40 +48,33 @@ export default function Index() {
 const styles = StyleSheet.create( {
   safeArea: {
     flex: 1,
-    backgroundColor: "white",
-    padding: 20,
+    padding: SCREEN_PADDING,
   },
-  container: {
+  content: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 50,
-    height: 100,
-    backgroundColor: "violet",
-    borderRadius: 20,
-    alignSelf: "center",
-  },
-  customButton: {
-    backgroundColor: "blue",
-    padding: 10,
-    borderRadius: 5,
-  },
-  buttonText: {
-    color: "white",
-    fontSize: 16,
-    fontWeight: "bold",
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   header: {
     fontSize: 24,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     marginBottom: 20,
-    padding: 20,
+    textAlign: 'center',
   },
-  animationContainer: {
-    alignItems: "center",
+  box: {
     height: 100,
     marginVertical: 20,
-    backgroundColor: "lightgray",
+    backgroundColor: 'violet',
     borderRadius: 20,
   },
-});
+  button: {
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    borderRadius: 5,
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+} );

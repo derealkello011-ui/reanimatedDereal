@@ -1,9 +1,24 @@
-import { Stack } from "expo-router";
+import { DarkTheme, DefaultTheme, Stack, ThemeProvider } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
+import { useColorScheme } from 'react-native';
 
 export default function RootLayout() {
-  return <Stack
-    screenOptions={{
-      headerShown: false,
-    }}
-  />;
+  const scheme = useColorScheme();
+
+  return (
+    <ThemeProvider value={scheme === 'dark' ? DarkTheme : DefaultTheme}>
+      <StatusBar style='auto' />
+      <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name='(tabs)' />
+        <Stack.Screen
+          name='screens/AnimatingStylesProps'
+          options={{
+            headerShown: true,
+            title: 'Animating styles and props',
+            headerBackTitle: 'Back',
+          }}
+        />
+      </Stack>
+    </ThemeProvider>
+  );
 }
