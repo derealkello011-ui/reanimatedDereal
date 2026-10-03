@@ -1,21 +1,21 @@
 import { useTheme } from 'expo-router';
 import { useRef } from 'react';
 import {
-    LayoutChangeEvent,
-    Pressable,
-    ScrollView,
-    StyleProp,
-    StyleSheet,
-    Text,
-    View,
-    ViewStyle,
+  LayoutChangeEvent,
+  Pressable,
+  ScrollView,
+  StyleProp,
+  StyleSheet,
+  Text,
+  View,
+  ViewStyle,
 } from 'react-native';
 import Animated, {
-    useAnimatedProps,
-    useAnimatedStyle,
-    useSharedValue,
-    withSpring,
-    withTiming,
+  useAnimatedProps,
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+  withTiming,
 } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Circle, Svg } from 'react-native-svg';

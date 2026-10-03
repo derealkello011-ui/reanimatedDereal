@@ -1,5 +1,5 @@
-import { Href, Link, useRouter, useTheme } from 'expo-router';
-import { Button, StyleSheet } from 'react-native';
+import { Href, Link, useTheme } from 'expo-router';
+import { StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 interface RouteLink {
@@ -8,13 +8,13 @@ interface RouteLink {
 }
 
 const LINKS: RouteLink[] = [
-  { label: 'Animating styles and Props', href: '/screens/AnimatingStylesProps' },
-  { label: 'Go to Home', href: '/' },
+    { label: 'Animating styles and Props', href: '/screens/AnimatingStylesProps' },
+    { label: 'Go to Home', href: '/screens/HomeScreen' },
+    { label: 'Go to Detail', href: '/screens/DetailScreen' },
 ];
 
 const TransitionScreen = () => {
   const { colors } = useTheme();
-  const router = useRouter();
 
   return (
     <SafeAreaView
@@ -31,11 +31,6 @@ const TransitionScreen = () => {
         </Link>
       ) )}
 
-      <Button
-        title='Open animation screen'
-        color={colors.primary}
-        onPress={() => router.push( '/screens/AnimatingStylesProps' )}
-      />
     </SafeAreaView>
   );
 };

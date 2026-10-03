@@ -18,6 +18,14 @@ export default function RootLayout() {
             headerBackTitle: 'Back',
           }}
         />
+        <Stack.Screen
+          name='screens/HomeScreen'
+          options={{
+            headerShown: true,
+            title: 'Home',
+            headerBackTitle: 'Back',
+          }}
+        />
       </Stack>
     </ThemeProvider>
   );
