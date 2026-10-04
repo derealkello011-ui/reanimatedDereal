@@ -10,7 +10,6 @@ interface RouteLink {
 const LINKS: RouteLink[] = [
     { label: 'Animating styles and Props', href: '/screens/AnimatingStylesProps' },
     { label: 'Go to Home', href: '/screens/HomeScreen' },
-    { label: 'Go to Detail', href: '/screens/DetailScreen' },
 ];
 
 const TransitionScreen = () => {

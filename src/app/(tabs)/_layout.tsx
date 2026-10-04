@@ -42,6 +42,19 @@ const TabLayout = () => {
           ),
         }}
       />
+      <Tabs.Screen
+        name='ShopScreen'
+        options={{
+          title: 'Shop',
+          tabBarIcon: ({ color, focused, size }) => (
+            <Ionicons
+              name={focused ? 'cart-sharp' : 'cart-outline'}
+              size={size}
+              color={color}
+            />
+          ),
+        }}
+      />
     </Tabs>
   );
 };

@@ -1,13 +1,14 @@
-import { useTheme } from 'expo-router';
-import { Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native'
+import React from 'react'
 
 const DetailScreen = () => {
-    const { colors } = useTheme();
   return (
-    <View style={{ flex: 1, backgroundColor: colors.background, alignItems: 'center', justifyContent: 'center' }}>
-      <Text style={{ color: colors.text }}>DetailScreen</Text>
+    <View>
+      <Text>DetailScreen</Text>
     </View>
   )
 }
 
 export default DetailScreen
+
+const styles = StyleSheet.create({})
