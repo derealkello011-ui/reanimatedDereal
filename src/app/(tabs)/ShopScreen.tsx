@@ -23,10 +23,15 @@ const ShopScreen = () => {
       edges={[ 'top', 'left', 'right' ]} // the stack header handles the top
     >
       <FlashList
+        ListHeaderComponent={
+          <View style={[styles.pageContainer, {borderColor: colors.border, backgroundColor: colors.card}]}>
+            <Text style={[styles.pageHeader,{color: colors.text}]}>Our Products</Text>
+          </View>
+        }
         data={assets}
         keyExtractor={( item ) => item.id}
         contentContainerStyle={styles.list}
-        // showsVerticalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
         renderItem={( { item } ) => (
           <Pressable
             accessibilityRole='button'
@@ -47,8 +52,11 @@ const ShopScreen = () => {
                   {item.name}
                 </Text>
                 <Text style={[ styles.price, { color: colors.text } ]}>
-                    {item.price.toLocaleString()}
-                  </Text >
+                    {item.description}
+                </Text >
+                <Text style={[ styles.label, { color: colors.text } ]}>
+                    {item.moreInfo}
+                </Text >
               </View>
             </View>
           </Pressable>
@@ -94,8 +102,25 @@ const styles = StyleSheet.create( {
     fontSize: 16,
     fontWeight: '600',
   },
+  label: {
+    marginTop: 8,
+    fontSize: 10,
+    opacity: 0.6,
+    fontWeight: '400',
+  },
   infoHeader: {
     fontWeight: 'bold',
     fontSize: 20
+  },
+  pageContainer: {
+    padding: 10,
+    borderBottomWidth: 1,
+    marginBottom: 5,
+    borderTopLeftRadius: 15,
+    borderBottomRightRadius: 15
+  },
+  pageHeader: {
+    fontWeight: '600',
+    fontSize: 30,
   }
 } );

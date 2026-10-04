@@ -66,13 +66,12 @@ const styles = StyleSheet.create( {
     paddingHorizontal: 10,
   },
   content: {
-    gap: 20,
+    gap: 10,
     paddingVertical: 10,
   },
   headerContainer: {
     backgroundColor: 'transparent',
     borderBottomWidth: 2,
-    marginBottom: 10,
   },
   header: {
     fontSize: 30,
@@ -84,7 +83,7 @@ const styles = StyleSheet.create( {
     padding: 5,
   },
   linkContainer: {
-    borderWidth: 2,
+    borderWidth: 1,
     padding: 10,
     borderRadius: 20,
   },
