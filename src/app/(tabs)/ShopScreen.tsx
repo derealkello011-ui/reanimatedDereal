@@ -19,7 +19,7 @@ type AssetItem = ( typeof assets )[ number ];
 // `FlashList<AssetItem>` keeps the list's generic type, so `item` stays typed
 const AnimatedFlashList = Animated.createAnimatedComponent( FlashList<AssetItem> );
 
-const SHOW_BUTTON_AFTER = 300; // scroll distance (px) at which the button is fully visible
+const SHOW_BUTTON_AFTER = 200; // scroll distance (px) at which the button is fully visible
 
 const ShopScreen = () => {
   const { colors } = useTheme();
