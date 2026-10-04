@@ -14,21 +14,24 @@ import { ImageSourcePropType } from 'react-native';
 
 interface Assets { 
     id: string;
+    name: string;
+    description: string;
     image: ImageSourcePropType;
     price: number;
+    moreInfo?: string;
 };
 
 export const assets: Assets[] = [
-    { id: '1', image: africa_map, price: 100 },
-    { id: '2', image: vscode, price: 200 },
-    { id: '3', image: logo, price: 300 },
-    { id: '4', image: ai, price: 400 },
-    { id: '5', image: picsart, price: 500 },
-    { id: '6', image: smoker, price: 600 },
-    { id: '7', image: notebookllm, price: 700 },
-    { id: '8', image: copy, price: 800 },
-    { id: '9', image: drive, price: 900 },
-    { id: '10', image: star, price: 1000 },
-    { id: '11', image: dclogo1, price: 1100 },
-    { id: '12', image: dclogo2, price: 1200 }
+    { id: '1', image: africa_map, price: 100, name: 'Africa Map', description: 'A beautiful map of Africa.' , moreInfo: 'This map showcases the diverse landscapes and cultures of Africa, making it a perfect addition to any home or office.' },
+    { id: '2', image: vscode, price: 200, name: 'Visual Studio Code', description: 'A powerful code editor.' , moreInfo: 'Visual Studio Code is a free code editor for web and cloud development.' },
+    { id: '3', image: logo, price: 300, name: 'Logo', description: 'A sleek logo design.' , moreInfo: 'This logo design is perfect for any business or brand.' },
+    { id: '4', image: ai, price: 400, name: 'AI Assistant', description: 'An intelligent AI assistant.' , moreInfo: 'Our AI assistant can help you with a wide range of tasks.' },
+    { id: '5', image: picsart, price: 500, name: 'Picsart', description: 'A popular photo editing app.' , moreInfo: 'Picsart is a powerful photo editing app that allows you to create stunning images.' },
+    { id: '6', image: smoker, price: 600, name: 'Smoker', description: 'A stylish smoker accessory.' , moreInfo: 'This stylish smoker accessory is perfect for any smoker.' },
+    { id: '7', image: notebookllm, price: 700, name: 'Notebook LLM', description: 'A powerful language model for note-taking.' , moreInfo: 'This language model is perfect for taking notes and organizing your thoughts.' },
+    { id: '8', image: copy, price: 800, name: 'Copy', description: 'A simple copy app.' , moreInfo: 'This copy app is perfect for quickly copying and pasting text.' },
+    { id: '9', image: drive, price: 900, name: 'Drive', description: 'A cloud storage app.' , moreInfo: 'This cloud storage app is perfect for storing and accessing your files from anywhere.' },
+    { id: '10', image: star, price: 1000, name: 'Star', description: 'A star-shaped accessory.' , moreInfo: 'This star-shaped accessory is perfect for adding a touch of sparkle to any outfit.' },
+    { id: '11', image: dclogo1, price: 1100, name: 'DC Logo 1', description: 'A logo design for DC.' , moreInfo: 'This logo design is perfect for any DC-themed event or promotion.' },
+    { id: '12', image: dclogo2, price: 1200, name: 'DC Logo 2', description: 'Another logo design for DC.' , moreInfo: 'This alternative logo design offers a fresh take on the classic DC branding.' }
 ];
