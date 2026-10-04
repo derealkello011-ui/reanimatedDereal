@@ -1,26 +1,52 @@
 import { assets } from '@/constants/assets';
 import { SharedElementTransition } from '@/utils/SharedElementTransition';
 import { Ionicons } from '@expo/vector-icons';
-import { FlashList } from '@shopify/flash-list';
+import { FlashList, FlashListRef } from '@shopify/flash-list';
 import { useRouter, useTheme } from 'expo-router';
+import { useRef } from 'react';
 import { Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import Animated, { useAnimatedRef, useAnimatedStyle, useScrollViewOffset } from 'react-native-reanimated';
+import Animated, {
+  Extrapolation,
+  interpolate,
+  useAnimatedScrollHandler,
+  useAnimatedStyle,
+  useSharedValue,
+} from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 type AssetItem = ( typeof assets )[ number ];
-const AnimatedFlashList = Animated.createAnimatedComponent( FlashList );
+
+// `FlashList<AssetItem>` keeps the list's generic type, so `item` stays typed
+const AnimatedFlashList = Animated.createAnimatedComponent( FlashList<AssetItem> );
+
+const SHOW_BUTTON_AFTER = 300; // scroll distance (px) at which the button is fully visible
 
 const ShopScreen = () => {
   const { colors } = useTheme();
   const router = useRouter();
-  const scrollRef = useAnimatedRef();
 
-  const scrollHandler = useScrollViewOffset( scrollRef ); 
+  const listRef = useRef<FlashListRef<AssetItem>>( null );
+  const scrollY = useSharedValue( 0 );
 
-  const buttonStyle = useAnimatedStyle( () => {
-    console.log( scrollHandler.value );
-    return {};
-  } ); //for testing purposes
+  // Runs on the UI thread on every scroll event
+  const onScroll = useAnimatedScrollHandler( ( event ) => {
+    scrollY.set( event.contentOffset.y );
+  } );
+
+  // Fades and slides the button in as the user scrolls down
+  const scrollTopButtonStyle = useAnimatedStyle( () => {
+    const progress = interpolate(
+      scrollY.get(),
+      [ SHOW_BUTTON_AFTER - 100, SHOW_BUTTON_AFTER ],
+      [ 0, 1 ],
+      Extrapolation.CLAMP,
+    );
+
+    return {
+      opacity: progress,
+      transform: [ { translateY: ( 1 - progress ) * 20 } ],
+    };
+  } );
 
   const handleItemPress = ( item: AssetItem ) => {
     router.push( {
@@ -29,17 +55,27 @@ const ShopScreen = () => {
     } );
   };
 
-  const scrollTop = () => { };
+  const scrollToTop = () => {
+    listRef.current?.scrollToOffset( { offset: 0, animated: true } );
+  };
 
   return (
     <SafeAreaView
       style={[ styles.container, { backgroundColor: colors.background } ]}
       edges={[ 'top', 'left', 'right' ]}
     >
-      <FlashList
+      <AnimatedFlashList
+        ref={listRef}
+        onScroll={onScroll}
+        scrollEventThrottle={16}
         ListHeaderComponent={
-          <View style={[styles.pageContainer, {borderColor: colors.border, backgroundColor: colors.card}]}>
-            <Text style={[styles.pageHeader,{color: colors.text}]}>Our Products</Text>
+          <View
+            style={[
+              styles.headerCard,
+              { borderColor: colors.border, backgroundColor: colors.card },
+            ]}
+          >
+            <Text style={[ styles.headerTitle, { color: colors.text } ]}>Our Products</Text>
           </View>
         }
         data={assets}
@@ -58,8 +94,8 @@ const ShopScreen = () => {
                 opacity: pressed ? 0.8 : 1,
               },
             ]}
-          > 
-            <View style={styles.info}>
+          >
+            <View style={styles.cardRow}>
               <Animated.Image
                 sharedTransitionTag={`image-${ item.id }`}
                 sharedTransitionStyle={SharedElementTransition}
@@ -67,27 +103,25 @@ const ShopScreen = () => {
                 style={styles.image}
                 resizeMode='cover'
               />
-              <View style={styles.infoDesign}>
-                <Text style={[styles.infoHeader, {color: colors.primary}]}>
-                  {item.name}
+              <View style={styles.textColumn}>
+                <Text style={[ styles.name, { color: colors.primary } ]}>{item.name}</Text>
+                <Text style={[ styles.description, { color: colors.text } ]}>
+                  {item.description}
                 </Text>
-                <Text style={[ styles.price, { color: colors.text } ]}>
-                    {item.description}
-                </Text >
-                <Text style={[ styles.label, { color: colors.text } ]}>
-                    {item.moreInfo}
-                </Text >
+                <Text
+                  numberOfLines={2}
+                  style={[ styles.moreInfo, { color: colors.text } ]}
+                >
+                  {item.moreInfo}
+                </Text>
               </View>
             </View>
           </Pressable>
         )}
       />
-      <Animated.View
-        style={[{position: 'absolute', bottom: 20, right: 20}]}
-      >
-        <TouchableOpacity
-          onPress={scrollTop}
-        >
+
+      <Animated.View style={[ styles.scrollTopButton, scrollTopButtonStyle ]}>
+        <TouchableOpacity onPress={scrollToTop} accessibilityLabel='Scroll to top'>
           <Ionicons name='arrow-up-circle-sharp' size={40} color={colors.primary} />
         </TouchableOpacity>
       </Animated.View>
@@ -104,52 +138,60 @@ const styles = StyleSheet.create( {
   list: {
     padding: 6,
   },
+
+  // Header
+  headerCard: {
+    padding: 10,
+    borderBottomWidth: 1,
+    marginBottom: 5,
+    borderTopLeftRadius: 15,
+    borderBottomRightRadius: 15,
+  },
+  headerTitle: {
+    fontWeight: '600',
+    fontSize: 30,
+  },
+
+  // Card
   card: {
     margin: 6,
     padding: 8,
     borderRadius: 12,
     borderWidth: StyleSheet.hairlineWidth,
   },
+  cardRow: {
+    flexDirection: 'row',
+    gap: 20,
+  },
   image: {
     width: 100,
     height: 100,
-    aspectRatio: 1,
     borderRadius: 8,
   },
-  info: {
+  textColumn: {
     flex: 1,
-    flexDirection: 'row',
-    gap: 20
+    justifyContent: 'center',
   },
-  infoDesign: {
-    flex: 1,
-    alignContent: 'center',
-    justifyContent: 'center'
+  name: {
+    fontWeight: 'bold',
+    fontSize: 20,
   },
-  price: {
+  description: {
     marginTop: 8,
     fontSize: 16,
     fontWeight: '600',
   },
-  label: {
+  moreInfo: {
     marginTop: 8,
     fontSize: 10,
     opacity: 0.6,
     fontWeight: '400',
   },
-  infoHeader: {
-    fontWeight: 'bold',
-    fontSize: 20
+
+  // Scroll-to-top button
+  scrollTopButton: {
+    position: 'absolute',
+    bottom: 20,
+    right: 20,
   },
-  pageContainer: {
-    padding: 10,
-    borderBottomWidth: 1,
-    marginBottom: 5,
-    borderTopLeftRadius: 15,
-    borderBottomRightRadius: 15
-  },
-  pageHeader: {
-    fontWeight: '600',
-    fontSize: 30,
-  }
 } );
