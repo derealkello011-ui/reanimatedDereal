@@ -1,7 +1,8 @@
 import { assets } from '@/constants/assets';
+import { BouncyImageTransition, SharedElementTransition } from '@/utils/SharedElementTransition';
 import { useLocalSearchParams, useTheme } from 'expo-router';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
-import Animated, { BounceInUp, FadeInUp, LightSpeedInLeft } from 'react-native-reanimated';
+import Animated, { FadeInUp, LightSpeedInLeft } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const formatPrice = ( value: number ) =>
@@ -22,28 +23,29 @@ const DetailScreen = () => {
         <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
           <View style={[ styles.imageFrame, { borderColor: colors.border } ]} key={id}>
             <Animated.Image
-              entering={BounceInUp.duration( 1000 ).delay( 100 )}
+              entering={BouncyImageTransition}
               source={item.image}
               style={styles.image}
               resizeMode='contain'
-              sharedTransitionTag={`image-${id}`}
+              sharedTransitionTag={`image-${ id }`}
+              sharedTransitionStyle={SharedElementTransition}
             />
           </View>
 
           <View style={styles.details}>
             
-            <Animated.View entering={LightSpeedInLeft.duration( 500 ).delay( 200 )}>
+            <Animated.View entering={LightSpeedInLeft.duration( 500 ).delay( 100 )}>
               <Text style={[ styles.name, { color: colors.primary } ]}>{item.name}</Text>
             </Animated.View>
 
-            <Animated.View entering={LightSpeedInLeft.duration( 500 ).delay( 250 )}>
+            <Animated.View entering={LightSpeedInLeft.duration( 500 ).delay( 150 )}>
               <Text style={[ styles.description, { color: colors.text } ]}>
                 {item.description}
               </Text>
             </Animated.View>
 
             <Animated.View
-              entering={LightSpeedInLeft.duration( 500 ).delay( 300 )}
+              entering={LightSpeedInLeft.duration( 500 ).delay( 200 )}
               style={[ styles.priceRow, { borderColor: colors.border } ]}
             >
               <Text style={[ styles.priceLabel, { color: colors.text } ]}>Price</Text>
@@ -54,7 +56,7 @@ const DetailScreen = () => {
 
             {item.moreInfo ? (
               <Animated.View
-                entering={FadeInUp.duration( 500 ).delay( 350 )}
+                entering={FadeInUp.duration( 500 ).delay( 250 )}
                 style={styles.moreInfo}
               >
                 <Text style={[ styles.moreInfoTitle, { color: colors.text } ]}>More info</Text>

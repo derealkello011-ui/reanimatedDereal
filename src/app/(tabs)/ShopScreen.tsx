@@ -1,14 +1,26 @@
 import { assets } from '@/constants/assets';
+import { SharedElementTransition } from '@/utils/SharedElementTransition';
+import { Ionicons } from '@expo/vector-icons';
 import { FlashList } from '@shopify/flash-list';
 import { useRouter, useTheme } from 'expo-router';
-import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import Animated, { useAnimatedRef, useAnimatedStyle, useScrollViewOffset } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 type AssetItem = ( typeof assets )[ number ];
+const AnimatedFlashList = Animated.createAnimatedComponent( FlashList );
 
 const ShopScreen = () => {
   const { colors } = useTheme();
   const router = useRouter();
+  const scrollRef = useAnimatedRef();
+
+  const scrollHandler = useScrollViewOffset( scrollRef ); 
+
+  const buttonStyle = useAnimatedStyle( () => {
+    console.log( scrollHandler.value );
+    return {};
+  } ); //for testing purposes
 
   const handleItemPress = ( item: AssetItem ) => {
     router.push( {
@@ -17,10 +29,12 @@ const ShopScreen = () => {
     } );
   };
 
+  const scrollTop = () => { };
+
   return (
     <SafeAreaView
       style={[ styles.container, { backgroundColor: colors.background } ]}
-      edges={[ 'top', 'left', 'right' ]} // the stack header handles the top
+      edges={[ 'top', 'left', 'right' ]}
     >
       <FlashList
         ListHeaderComponent={
@@ -46,7 +60,13 @@ const ShopScreen = () => {
             ]}
           > 
             <View style={styles.info}>
-              <Image source={item.image} style={styles.image} resizeMode='cover' />
+              <Animated.Image
+                sharedTransitionTag={`image-${ item.id }`}
+                sharedTransitionStyle={SharedElementTransition}
+                source={item.image}
+                style={styles.image}
+                resizeMode='cover'
+              />
               <View style={styles.infoDesign}>
                 <Text style={[styles.infoHeader, {color: colors.primary}]}>
                   {item.name}
@@ -62,6 +82,15 @@ const ShopScreen = () => {
           </Pressable>
         )}
       />
+      <Animated.View
+        style={[{position: 'absolute', bottom: 20, right: 20}]}
+      >
+        <TouchableOpacity
+          onPress={scrollTop}
+        >
+          <Ionicons name='arrow-up-circle-sharp' size={40} color={colors.primary} />
+        </TouchableOpacity>
+      </Animated.View>
     </SafeAreaView>
   );
 };
