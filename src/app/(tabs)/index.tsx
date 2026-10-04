@@ -156,7 +156,7 @@ export default function Index() {
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
         <View>
           <Text style={[ styles.header, { color: colors.text } ]}>
-            Animating styles and props
+            😉 Derealkello was here
           </Text>
           <Text style={[ styles.subtitle, { color: colors.text } ]}>
             Tap a button to run each animation.

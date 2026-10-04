@@ -6,7 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 type AssetItem = ( typeof assets )[ number ];
 
-const HomeScreen = () => {
+const ShopScreen = () => {
   const { colors } = useTheme();
   const router = useRouter();
 
@@ -26,7 +26,7 @@ const HomeScreen = () => {
         data={assets}
         keyExtractor={( item ) => item.id}
         contentContainerStyle={styles.list}
-        showsVerticalScrollIndicator={false}
+        // showsVerticalScrollIndicator={false}
         renderItem={( { item } ) => (
           <Pressable
             accessibilityRole='button'
@@ -58,7 +58,7 @@ const HomeScreen = () => {
   );
 };
 
-export default HomeScreen;
+export default ShopScreen;
 
 const styles = StyleSheet.create( {
   container: {
