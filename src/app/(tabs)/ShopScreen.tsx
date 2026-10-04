@@ -1,56 +1,82 @@
 import { assets } from '@/constants/assets';
 import { FlashList } from '@shopify/flash-list';
-import { useTheme } from 'expo-router';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useRouter, useTheme } from 'expo-router';
+import { Image, Pressable, StyleSheet, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-const ShopScreen = () => {
+type AssetItem = ( typeof assets )[ number ];
+
+const HomeScreen = () => {
   const { colors } = useTheme();
+  const router = useRouter();
+
+  // Only the id travels in the route: params are serialized into the URL, so
+  // objects and bundled images can't be passed. The detail screen looks the
+  // full item up from `assets`.
+  const handleItemPress = ( item: AssetItem ) => {
+    router.push( {
+      pathname: '/screens/DetailScreen',
+      params: { id: item.id },
+    } );
+  };
 
   return (
     <SafeAreaView
       style={[ styles.container, { backgroundColor: colors.background } ]}
-      edges={[ 'top', 'left', 'right' ]}
+      edges={[ 'bottom', 'left', 'right' ]} // the stack header handles the top
     >
       <FlashList
         data={assets}
-        keyExtractor={( _, index ) => String( index )}
+        numColumns={2}
+        keyExtractor={( item ) => item.id}
         contentContainerStyle={styles.list}
-        showsVerticalScrollIndicator={false}
-        numColumns={1}
         renderItem={( { item } ) => (
-          <View style={styles.item}>
-            <TouchableOpacity>
-              <Image source={item.image} style={styles.image} />
-              <Text style={[styles.price, { color: colors.text }]}>$ {item.price.toFixed(2)}</Text>
-            </TouchableOpacity>
-          </View>
+          <Pressable
+            accessibilityRole='button'
+            onPress={() => handleItemPress( item )}
+            style={( { pressed } ) => [
+              styles.card,
+              {
+                backgroundColor: colors.card,
+                borderColor: colors.border,
+                opacity: pressed ? 0.8 : 1,
+              },
+            ]}
+          >
+            <Image source={item.image} style={styles.image} resizeMode='cover' />
+            <Text style={[ styles.price, { color: colors.text } ]}>
+              {item.price.toLocaleString()}
+            </Text>
+          </Pressable>
         )}
       />
     </SafeAreaView>
   );
 };
 
-export default ShopScreen;
+export default HomeScreen;
 
 const styles = StyleSheet.create( {
   container: {
-    flex: 1, // FlashList needs a parent with a real size
+    flex: 1,
   },
   list: {
-    padding: 10,
+    padding: 6,
   },
-  item: {
-    padding: 10,
+  card: {
+    margin: 6,
+    padding: 8,
+    borderRadius: 12,
+    borderWidth: StyleSheet.hairlineWidth,
   },
   image: {
-    width: 100,
-    height: 100,
-    borderRadius: 15,
+    width: '100%',
+    aspectRatio: 1,
+    borderRadius: 8,
   },
   price: {
-    marginTop: 5,
+    marginTop: 8,
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: '600',
   },
 } );
