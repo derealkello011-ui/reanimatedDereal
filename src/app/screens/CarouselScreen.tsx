@@ -6,10 +6,6 @@ import Animated, { useAnimatedRef, useScrollOffset } from 'react-native-reanimat
 const CarouselScreen = () => {
     const animatedRef = useAnimatedRef<Animated.ScrollView>();
     const scrollOffset = useScrollOffset( animatedRef );
-
-    // useDerivedValue( () => {
-    //     console.log( scrollOffset.value );
-    // })
     
     const ListPadding = WindowWidth - StoryListItemWidth;
     
