@@ -1,18 +1,37 @@
-import StoryListItem, { StoryListItemHeight } from '@/components/StoryListItem'
+import StoryListItem, { StoryListItemHeight, StoryListItemWidth } from '@/components/StoryListItem'
 import { Stories } from '@/constants/assets'
-import { ScrollView, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
+import Animated, { useAnimatedRef, useScrollOffset } from 'react-native-reanimated'
 
 const CarouselScreen = () => {
+    const animatedRef = useAnimatedRef<Animated.ScrollView>();
+    const scrollOffset = useScrollOffset( animatedRef );
+
+    // useDerivedValue( () => {
+    //     console.log( scrollOffset.value );
+    // })
+    
   return (
       <View style={styles.container}>
           <View style={{
               height: StoryListItemHeight,
+              width: '100%'
           }}>
-            <ScrollView showsHorizontalScrollIndicator={ false} horizontal>
-                {Stories.map( ( story, index ) => (
-                    <StoryListItem key={index} />
-                ) )}
-            </ScrollView>
+              <Animated.ScrollView
+                  ref={animatedRef}
+                  showsHorizontalScrollIndicator={false}
+                  scrollEventThrottle={16}
+                  horizontal
+                  contentContainerStyle={{
+                      width: StoryListItemWidth * Stories.length,
+                      marginLeft: 5
+                  }}
+              >
+                  {Stories.map( ( story, index ) => {
+                      return <StoryListItem scrollOffset={scrollOffset} index={index} imageSource={story.image} key={index} />
+                    }
+                 )}
+            </Animated.ScrollView>
           </View>
     </View>
   )

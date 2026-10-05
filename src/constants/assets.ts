@@ -10,6 +10,7 @@ import star from '@/assets/dereal/image6.jpg';
 import dclogo1 from '@/assets/dereal/image7.jpeg';
 import dclogo2 from '@/assets/dereal/image8.jpeg';
 import logo from '@/assets/dereal/logo3.png';
+import { ImageSource } from 'expo-image';
 import { ImageSourcePropType } from 'react-native';
 
 interface Assets { 
@@ -36,7 +37,9 @@ export const assets: Assets[] = [
     { id: '12', image: dclogo2, price: 1200, name: 'DC Logo 2', description: 'Another logo design for DC.' , moreInfo: 'This alternative logo design offers a fresh take on the classic DC branding.' }
 ];
 
-export const Stories = [
+export const Stories: {
+    image: ImageSource
+}[] = [
     {
         image: require('@/assets/stories/image.jpg'),
     },{
