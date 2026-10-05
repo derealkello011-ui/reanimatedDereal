@@ -2,7 +2,7 @@ import { Image, ImageSource } from 'expo-image';
 import { Dimensions, StyleSheet } from 'react-native';
 import Animated, { Extrapolation, interpolate, SharedValue, useAnimatedStyle } from 'react-native-reanimated';
 
-const WindowWidth = Dimensions.get( 'window' ).width;
+export const WindowWidth = Dimensions.get( 'window' ).width;
 export const StoryListItemWidth = WindowWidth * 0.8;
 export const StoryListItemHeight = ( (StoryListItemWidth + 50) / 3 ) * 4;
 
@@ -15,7 +15,9 @@ interface StoryListItemProps {
 const StoryListItem = ( { imageSource, index, scrollOffset }: StoryListItemProps ) => {
     const rContainerStyle = useAnimatedStyle( () => { 
         const activeIndex = ( scrollOffset.get() / StoryListItemWidth );
-        const paddingLeft = 20;
+
+        const paddingLeft = ( WindowWidth - StoryListItemWidth ) / 4;
+        
         const translateX = interpolate(
             activeIndex,
             [ index - 2, index - 1, index, index + 1 ], // input range

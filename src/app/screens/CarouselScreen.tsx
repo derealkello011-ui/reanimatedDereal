@@ -1,4 +1,4 @@
-import StoryListItem, { StoryListItemHeight, StoryListItemWidth } from '@/components/StoryListItem'
+import StoryListItem, { StoryListItemHeight, StoryListItemWidth, WindowWidth } from '@/components/StoryListItem'
 import { Stories } from '@/constants/assets'
 import { StyleSheet, View } from 'react-native'
 import Animated, { useAnimatedRef, useScrollOffset } from 'react-native-reanimated'
@@ -11,6 +11,8 @@ const CarouselScreen = () => {
     //     console.log( scrollOffset.value );
     // })
     
+    const ListPadding = WindowWidth - StoryListItemWidth;
+    
   return (
       <View style={styles.container}>
           <View style={{
@@ -22,9 +24,10 @@ const CarouselScreen = () => {
                   showsHorizontalScrollIndicator={false}
                   scrollEventThrottle={16}
                   horizontal
+                  snapToInterval={StoryListItemWidth}
+                  decelerationRate={'fast'}
                   contentContainerStyle={{
-                      width: StoryListItemWidth * Stories.length,
-                      marginLeft: 5
+                      width: StoryListItemWidth * Stories.length + ListPadding,
                   }}
               >
                   {Stories.map( ( story, index ) => {
