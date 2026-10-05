@@ -34,6 +34,14 @@ export default function RootLayout() {
               headerBackTitle: 'Back',
             }}
           />
+          <Stack.Screen
+            name='screens/CarouselScreen'
+            options={{
+              headerShown: true,
+              title: 'Carousel',
+              headerBackTitle: 'Back',
+            }}
+          />
         </Stack>
       </GestureHandlerRootView>
 

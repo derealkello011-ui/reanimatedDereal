@@ -35,3 +35,55 @@ export const assets: Assets[] = [
     { id: '11', image: dclogo1, price: 1100, name: 'DC Logo 1', description: 'A logo design for DC.' , moreInfo: 'This logo design is perfect for any DC-themed event or promotion.' },
     { id: '12', image: dclogo2, price: 1200, name: 'DC Logo 2', description: 'Another logo design for DC.' , moreInfo: 'This alternative logo design offers a fresh take on the classic DC branding.' }
 ];
+
+export const Stories = [
+    {
+        image: require('@/assets/stories/image.jpg'),
+    },{
+        image: require('@/assets/stories/image0.jpg'),
+    },{
+        image: require('@/assets/stories/image1.jpg'),
+    },{
+        image: require('@/assets/stories/image2.jpg'),
+    },{
+        image: require('@/assets/stories/image3.jpg'),
+    },{
+        image: require('@/assets/stories/image4.jpg'),
+    },{
+        image: require('@/assets/stories/image5.jpg'),
+    },{
+        image: require('@/assets/stories/image6.jpg'),
+    },{
+        image: require('@/assets/stories/image7.jpg'),
+    },{
+        image: require('@/assets/stories/image8.jpg'),
+    },{
+        image: require('@/assets/stories/image9.jpg'),
+    },{
+        image: require('@/assets/stories/image10.jpg'),
+    },{
+        image: require('@/assets/stories/image11.jpg'),
+    },{
+        image: require('@/assets/stories/image12.jpg'),
+    },{
+        image: require('@/assets/stories/image13.jpg'),
+    },{
+        image: require('@/assets/stories/image14.jpg'),
+    },{
+        image: require('@/assets/stories/image15.jpg'),
+    },{
+        image: require('@/assets/stories/image16.jpg'),
+    },{
+        image: require('@/assets/stories/image17.jpg'),
+    },{
+        image: require('@/assets/stories/image18.jpg'),
+    },{
+        image: require('@/assets/stories/image19.jpg'),
+    },{
+        image: require('@/assets/stories/image20.jpg'),
+    },{
+        image: require('@/assets/stories/image21.jpg'),
+    },{
+        image: require('@/assets/stories/image22.jpg'),
+    },
+]
