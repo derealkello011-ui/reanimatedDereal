@@ -26,6 +26,7 @@ const CarouselScreen = () => {
                   horizontal
                   snapToInterval={StoryListItemWidth}
                   decelerationRate={'fast'}
+                  disableIntervalMomentum
                   contentContainerStyle={{
                       width: StoryListItemWidth * Stories.length + ListPadding,
                   }}

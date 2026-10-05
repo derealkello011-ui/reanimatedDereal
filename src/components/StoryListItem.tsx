@@ -21,7 +21,7 @@ const StoryListItem = ( { imageSource, index, scrollOffset }: StoryListItemProps
         const translateX = interpolate(
             activeIndex,
             [ index - 2, index - 1, index, index + 1 ], // input range
-            [ 120, 60, 0, -StoryListItemWidth - paddingLeft ], // output range,
+            [ 120, 60, 0, -StoryListItemWidth - paddingLeft * 2 ], // output range,
             Extrapolation.CLAMP, 
         )
         const scale = interpolate(
