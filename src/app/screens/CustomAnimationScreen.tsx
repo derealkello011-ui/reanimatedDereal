@@ -1,4 +1,5 @@
 import ConfigContainer from '@/components/ConfigContainer';
+import WithRepeatConfig from '@/components/WithRepeatConfig';
 import WithSpringConfig from '@/components/WithSpringConfig';
 import WithTimingConfig from '@/components/WithTimingConfig';
 import { useTheme } from 'expo-router';
@@ -35,10 +36,19 @@ const CustomAnimationScreen = () => {
                     <WithSpringConfig width={boxWidth} />
                 </ConfigContainer>
             </View>
-            
+
             <Text style={[ { color: colors.text, borderBottomColor: colors.border }, styles.header ]} >
                 Applying Modifiers 
             </Text>
+            <View style={ styles.content}>
+                <ConfigContainer
+                    title='withRepeat'
+                    description='withRepeat is an animation modifier that lets you repeat an animation given number of times or run it indefinitely.'
+                >
+                    <WithRepeatConfig width={boxWidth} />
+                </ConfigContainer>
+            </View>
+            
         </ScrollView>
     )
 };
