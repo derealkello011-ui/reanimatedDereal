@@ -31,7 +31,7 @@ export default function RootLayout() {
           <Stack.Screen
             name='screens/CarouselScreen'
             options={{
-              title: 'Carousel',
+              title: 'd3r3alk3ll0 Carousel',
             }}
           />
           <Stack.Screen
