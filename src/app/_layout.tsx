@@ -58,6 +58,14 @@ export default function RootLayout() {
               headerBackTitle: 'Back',
             }}
           />
+          <Stack.Screen
+            name='screens/HandlingGestureScreen'
+            options={{
+              headerShown: true,
+              title: 'Handling Gestures',
+              headerBackTitle: 'Back',
+            }}
+          />
         </Stack>
       </GestureHandlerRootView>
 
