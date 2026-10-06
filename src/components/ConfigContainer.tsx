@@ -8,7 +8,7 @@ interface ContainerProps {
     description: string,
  }
 
-const STAGE_HEIGHT = 300;
+// const STAGE_HEIGHT = 400;
 
 
 const ConfigContainer = ( { title, children, description} : ContainerProps) => {
@@ -50,7 +50,7 @@ const styles = StyleSheet.create( {
         fontWeight: '300'
     }, 
     stage: {
-        height: STAGE_HEIGHT,
+        // height: STAGE_HEIGHT,
         marginVertical: 16,
         borderRadius: 12,
         overflow: 'hidden',
