@@ -6,12 +6,13 @@ interface ContainerProps {
     children: ReactNode,
     title: string,
     description: string,
+    expandable?: boolean
  }
 
-// const STAGE_HEIGHT = 400;
+const STAGE_HEIGHT = 300;
 
 
-const ConfigContainer = ( { title, children, description} : ContainerProps) => {
+const ConfigContainer = ( { title, children, description, expandable=false} : ContainerProps) => {
     const { colors } = useTheme();
 
   return (
@@ -19,7 +20,7 @@ const ConfigContainer = ( { title, children, description} : ContainerProps) => {
           <View style={ styles.info}>
               <Text style={[styles.infoHeader, {color: colors.text}]}>{title}</Text>
               <Text style={[ styles.infoDescription, { color: colors.text } ]}>{description}</Text>
-              <View style={[styles.stage]}>
+              <View style={[ styles.stage, expandable === true ? { height: STAGE_HEIGHT } : {} ]}>
                   {children}
               </View>
           </View>
@@ -51,7 +52,6 @@ const styles = StyleSheet.create( {
         fontWeight: '300'
     }, 
     stage: {
-        // height: STAGE_HEIGHT,
         marginVertical: 16,
         borderRadius: 12,
         overflow: 'hidden',
