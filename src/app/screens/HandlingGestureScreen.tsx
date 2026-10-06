@@ -99,10 +99,13 @@ const HandlingGestureScreen = () => {
       showsVerticalScrollIndicator={false}
     >
       <Text style={headerStyle}>Handling tap gestures</Text>
-      <TapDemo />
+          <TapDemo />
 
       <Text style={headerStyle}>Handling pan gestures</Text>
-      <PanDemo />
+          <PanDemo />
+    
+      <Text style={headerStyle}>Using withDecay</Text>
+          
     </ScrollView>
   );
 };
