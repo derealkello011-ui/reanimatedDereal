@@ -50,6 +50,14 @@ export default function RootLayout() {
               headerBackTitle: 'Back',
             }}
           />
+          <Stack.Screen
+            name='screens/CustomAnimationScreen'
+            options={{
+              headerShown: true,
+              title: 'Custom Animation',
+              headerBackTitle: 'Back',
+            }}
+          />
         </Stack>
       </GestureHandlerRootView>
 

@@ -7,7 +7,7 @@ interface AppProps {
     width: number;
 };
 
-const withTimingConfig = ( { width }: AppProps ) => {
+const WithTimingConfig = ( { width }: AppProps ) => {
     const defaultAnim = useSharedValue<number>( width / 2 - 160 );
     const linear = useSharedValue<number>( width / 2 - 160 );
 
@@ -25,13 +25,12 @@ const withTimingConfig = ( { width }: AppProps ) => {
   )
 }
 
-export default withTimingConfig
+export default WithTimingConfig
 
 const styles = StyleSheet.create( {
-
     container: {
         flex: 1,
-        alignItems: 'center', 
+        alignItems: 'flex-start', 
         justifyContent: 'center',
         height: '100%',
   },

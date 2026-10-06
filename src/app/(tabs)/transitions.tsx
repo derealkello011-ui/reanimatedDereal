@@ -11,7 +11,8 @@ const LINKS: RouteLink[] = [
   { label: 'Animating styles and Props', href: '/screens/AnimatingStylesProps' },
   { label: 'Go to Home', href: '/screens/HomeScreen' },
   { label: 'Carousel Effect', href: '/screens/CarouselScreen' },
-  { label: 'Pop Animation', href: '/screens/PopAnimation'},
+  { label: 'Pop Animation', href: '/screens/PopAnimation' },
+  { label: 'Custom Animation', href: '/screens/CustomAnimationScreen'}
 ];
 
 const FOOTER_OFFSET = 16; 
