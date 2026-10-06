@@ -8,62 +8,48 @@ export default function RootLayout() {
   return (
     <ThemeProvider value={scheme === 'dark' ? DarkTheme : DefaultTheme}>
       <GestureHandlerRootView style={{flex: 1}} >
-        <Stack screenOptions={{ headerShown: false }}>
-          <Stack.Screen name='(tabs)' />
+        <Stack screenOptions={{ headerShown: true, headerBackTitle: 'Back' }}>
+          <Stack.Screen name='(tabs)' options={{headerShown: false}} />
           <Stack.Screen
             name='screens/AnimatingStylesProps'
             options={{
-              headerShown: true,
               title: 'Animating styles and props',
-              headerBackTitle: 'Back',
             }}
           />
           <Stack.Screen
             name='screens/HomeScreen'
             options={{
-              headerShown: true,
               title: 'Home',
-              headerBackTitle: 'Back',
             }}
           />
           <Stack.Screen
             name='screens/DetailScreen'
             options={{
-              headerShown: true,
               title: 'Details',
-              headerBackTitle: 'Back',
             }}
           />
           <Stack.Screen
             name='screens/CarouselScreen'
             options={{
-              headerShown: true,
               title: 'Carousel',
-              headerBackTitle: 'Back',
             }}
           />
           <Stack.Screen
             name='screens/PopAnimation'
             options={{
-              headerShown: true,
               title: 'Pop Animation',
-              headerBackTitle: 'Back',
             }}
           />
           <Stack.Screen
             name='screens/CustomAnimationScreen'
             options={{
-              headerShown: true,
               title: 'Custom Animation',
-              headerBackTitle: 'Back',
             }}
           />
           <Stack.Screen
             name='screens/HandlingGestureScreen'
             options={{
-              headerShown: true,
               title: 'Handling Gestures',
-              headerBackTitle: 'Back',
             }}
           />
         </Stack>
