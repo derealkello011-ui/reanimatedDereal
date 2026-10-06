@@ -2,7 +2,7 @@ import ConfigContainer from '@/components/ConfigContainer';
 import WithSpringConfig from '@/components/WithSpringConfig';
 import WithTimingConfig from '@/components/WithTimingConfig';
 import { useTheme } from 'expo-router';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
 const boxWidth = 100;
 
@@ -14,6 +14,10 @@ const CustomAnimationScreen = () => {
             style={styles.container}
             showsVerticalScrollIndicator={false}
         >
+            <Text style={[ { color: colors.text, borderBottomColor: colors.border }, styles.header ]} >
+                Built-in animation functions: 
+            </Text>
+
             <View style={ styles.content}>
                 <ConfigContainer
                     title='withTiming'
@@ -31,6 +35,10 @@ const CustomAnimationScreen = () => {
                     <WithSpringConfig width={boxWidth} />
                 </ConfigContainer>
             </View>
+            
+            <Text style={[ { color: colors.text, borderBottomColor: colors.border }, styles.header ]} >
+                Applying Modifiers 
+            </Text>
         </ScrollView>
     )
 };
@@ -50,5 +58,12 @@ const styles = StyleSheet.create( {
         justifyContent: 'center',
         alignItems: 'center',
         marginBottom: 20
+    },
+    header: {
+        fontWeight: 'bold',
+        fontSize: 25,
+        marginBottom: 10,
+        borderBottomWidth: 2,
+        paddingBottom: 5
     }
 })
