@@ -12,7 +12,7 @@ const TIME = 100;
 const EASING = Easing.elastic( 1.5 );
 
 // OFFSET SEQUENCE VARIABLES
-const OFFSET = 40;
+const OFFSET = 60;
 const OFFSET_TIME = 250;
 
 interface AppProps { 
@@ -35,7 +35,7 @@ const WithRepeatConfig = ( { width }: AppProps ) => {
                     withTiming( ANGLE, {
                         duration: TIME,
                         easing: EASING,
-                    } ), -2, true
+                    } ), 0, true
                 ),
                 withTiming( 0, { duration: TIME / 2, easing: EASING } )
             ), );
@@ -43,7 +43,7 @@ const WithRepeatConfig = ( { width }: AppProps ) => {
             withTiming( -OFFSET, { duration: OFFSET_TIME / 2 } ),
             withRepeat( withTiming( OFFSET, { duration: OFFSET_TIME } ), 5, true ),
             withTiming( 0, { duration: OFFSET_TIME / 2 } ),
-        ), -2)
+        ), 0, true)
     }, [] );
 
     const animatedStyle = useAnimatedStyle( () => ( {
