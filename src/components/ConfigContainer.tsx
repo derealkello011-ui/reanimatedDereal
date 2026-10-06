@@ -43,6 +43,7 @@ const styles = StyleSheet.create( {
     infoHeader: {
         fontSize: 20,
         fontWeight: 'bold',
+        paddingTop: 10
     },
     infoDescription: {
         fontSize: 15,
