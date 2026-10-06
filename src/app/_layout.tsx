@@ -42,6 +42,14 @@ export default function RootLayout() {
               headerBackTitle: 'Back',
             }}
           />
+          <Stack.Screen
+            name='screens/PopAnimation'
+            options={{
+              headerShown: true,
+              title: 'Pop Animation',
+              headerBackTitle: 'Back',
+            }}
+          />
         </Stack>
       </GestureHandlerRootView>
 

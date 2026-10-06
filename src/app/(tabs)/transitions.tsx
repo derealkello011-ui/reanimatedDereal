@@ -10,7 +10,8 @@ interface RouteLink {
 const LINKS: RouteLink[] = [
   { label: 'Animating styles and Props', href: '/screens/AnimatingStylesProps' },
   { label: 'Go to Home', href: '/screens/HomeScreen' },
-  { label: 'Carousel Effect', href: '/screens/CarouselScreen'}
+  { label: 'Carousel Effect', href: '/screens/CarouselScreen' },
+  { label: 'Pop Animation', href: '/screens/PopAnimation'},
 ];
 
 const FOOTER_OFFSET = 16; 
