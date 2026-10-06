@@ -3,6 +3,7 @@ import { useTheme } from 'expo-router';
 import { LayoutChangeEvent, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
+    cancelAnimation,
     useAnimatedStyle,
     useSharedValue,
     withDecay,
@@ -14,9 +15,8 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 const ON = '#FFE04B';
 const OFF = '#B58DF1';
 
-// withDecay Variables
-const SIZE = 120;
-const BOUNDARY_OFFSET = 50;
+const CIRCLE_SIZE = 100;
+const BOUNDARY_OFFSET = 50; // gap kept between the circle and the stage edges
 
 /* ---------- Demos: each one owns its shared values ---------- */
 
@@ -66,7 +66,7 @@ const PanDemo = () => {
     } )
     .onFinalize( () => {
       offset.set( withSpring( 0 ) );
-      pressed.set( false ); 
+      pressed.set( false );
     } );
 
   const circleStyle = useAnimatedStyle( () => ( {
@@ -90,46 +90,53 @@ const PanDemo = () => {
   );
 };
 
-const WithDecayDemo = () => { 
-    const offset = useSharedValue<number>( 0 );
-    const width = useSharedValue<number>( 0 );
+const WithDecayDemo = () => {
+  const offset = useSharedValue( 0 );
+  const stageWidth = useSharedValue( 0 );
 
-    const onLayout = ( event: LayoutChangeEvent ) => {
-        width.set( event.nativeEvent.layout.width );
-    }
+  const onLayout = ( event: LayoutChangeEvent ) => {
+    stageWidth.set( event.nativeEvent.layout.width );
+  };
 
-    const pan = Gesture.Pan()
-        .onChange( ( event ) => {
-            offset.set( offset.get() + event.changeX );
-        } )
-        .onFinalize( (event) => {
-            offset.set( withDecay( {
-                velocity: event.velocityX,
-                rubberBandEffect: true,
-                clamp: [
-                    -( width.get() / 2 ) + SIZE / 2 + BOUNDARY_OFFSET,
-                    width.get() / 2 - SIZE / 2 - BOUNDARY_OFFSET,
-                ]
-            } ) )
-        } );
-    
-    const animatedStyles = useAnimatedStyle( () => ( {
-        transform: [ { translateX: offset.get() } ]
-    } ) );
+  const pan = Gesture.Pan()
+    .activeOffsetX( [ -10, 10 ] ) // don't fight the page's vertical scroll
+    .failOffsetY( [ -10, 10 ] )
+    .onBegin( () => {
+      cancelAnimation( offset ); // catch the circle if it is still coasting
+    } )
+    .onChange( ( event ) => {
+      offset.set( offset.get() + event.changeX );
+    } )
+    .onFinalize( ( event ) => {
+      // How far the circle's center may travel from the middle of the stage
+      const limit = Math.max( 0, stageWidth.get() / 2 - CIRCLE_SIZE / 2 - BOUNDARY_OFFSET );
 
-    return (
-        <ConfigContainer
-            title='withDecay'
-            description="withDecay lets you retain the velocity of the gesture and animate with some deceleration. That means when you release a grabbed object with some velocity you can slowly bring it to stop. Sounds complicated but it really isn't!"
-        >
-            <View onLayout={onLayout} style={styles.wrapper}>
-                <GestureDetector gesture={pan}>
-                    <Animated.View style={[styles.circle, animatedStyles]} />
-                </GestureDetector>
-            </View>
-        </ConfigContainer>
-    )
-    
+      offset.set(
+        withDecay( {
+          velocity: event.velocityX,
+          rubberBandEffect: true,
+          clamp: [ -limit, limit ],
+        } ),
+      );
+    } );
+
+  const circleStyle = useAnimatedStyle( () => ( {
+    transform: [ { translateX: offset.get() } ],
+  } ) );
+
+  return (
+    <ConfigContainer
+      title='withDecay'
+      description="withDecay lets you retain the velocity of the gesture and animate with some deceleration. That means when you release a grabbed object with some velocity you can slowly bring it to stop. Sounds complicated but it really isn't!"
+      expandable
+    >
+      <View onLayout={onLayout} style={styles.wrapper}>
+        <GestureDetector gesture={pan}>
+          <Animated.View style={[ styles.circle, circleStyle ]} />
+        </GestureDetector>
+      </View>
+    </ConfigContainer>
+  );
 };
 
 /* ---------- Screen ---------- */
@@ -140,21 +147,19 @@ const HandlingGestureScreen = () => {
 
   const headerStyle = [ styles.header, { color: colors.text, borderBottomColor: colors.border } ];
 
-    return (
-      
-        <ScrollView
-            contentContainerStyle={[ styles.content, { paddingBottom: insets.bottom + 24 } ]}
-            showsVerticalScrollIndicator={false}
-        >
-        <Text style={headerStyle}>Handling tap gestures</Text>
-            <TapDemo />
+  return (
+    <ScrollView
+      contentContainerStyle={[ styles.content, { paddingBottom: insets.bottom + 24 } ]}
+      showsVerticalScrollIndicator={false}
+    >
+      <Text style={headerStyle}>Handling tap gestures</Text>
+      <TapDemo />
 
-        <Text style={headerStyle}>Handling pan gestures</Text>
-            <PanDemo />
-        
-        <Text style={headerStyle}>Using withDecay</Text>
-            <WithDecayDemo />
-          
+      <Text style={headerStyle}>Handling pan gestures</Text>
+      <PanDemo />
+
+      <Text style={headerStyle}>Using withDecay</Text>
+      <WithDecayDemo />
     </ScrollView>
   );
 };
@@ -173,23 +178,15 @@ const styles = StyleSheet.create( {
     paddingBottom: 5,
   },
   circle: {
-    height: 100,
-    width: 100,
-    borderRadius: 50,
-    },
-    wrapper: {
-        flex: 1,
-        width: '100%',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    box: {
-        // height: SIZE,
-        // width: SIZE,
-        backgroundColor: '#b58df1',
-        borderRadius: 20,
-        cursor: 'grab',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
+    height: CIRCLE_SIZE,
+    width: CIRCLE_SIZE,
+    borderRadius: CIRCLE_SIZE / 2,
+    backgroundColor: OFF, // the Tap/Pan demos override this with an animated color
+  },
+  wrapper: {
+    flex: 1,
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 } );
