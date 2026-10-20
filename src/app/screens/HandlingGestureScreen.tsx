@@ -4,6 +4,7 @@ import { LayoutChangeEvent, ScrollView, StyleSheet, Text, View } from 'react-nat
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
     cancelAnimation,
+    ReduceMotion,
     useAnimatedStyle,
     useSharedValue,
     withDecay,
@@ -16,7 +17,7 @@ const ON = '#FFE04B';
 const OFF = '#B58DF1';
 
 const CIRCLE_SIZE = 100;
-const BOUNDARY_OFFSET = 50; // gap kept between the circle and the stage edges
+const BOUNDARY_OFFSET = 40; // gap kept between the circle and the stage edges
 
 /* ---------- Demos: each one owns its shared values ---------- */
 
@@ -60,8 +61,6 @@ const PanDemo = () => {
       pressed.set( true );
     } )
     .onChange( ( event ) => {
-      // Accumulate the change instead of using translationX, so a new drag
-      // that starts mid-spring-back continues from where the circle is.
       offset.set( offset.get() + event.changeX );
     } )
     .onFinalize( () => {
@@ -113,9 +112,10 @@ const WithDecayDemo = () => {
 
       offset.set(
         withDecay( {
-          velocity: event.velocityX,
-          rubberBandEffect: true,
-          clamp: [ -limit, limit ],
+            velocity: event.velocityX,
+            rubberBandEffect: true,
+            clamp: [ -limit, limit ],
+            reduceMotion: ReduceMotion.System,
         } ),
       );
     } );
